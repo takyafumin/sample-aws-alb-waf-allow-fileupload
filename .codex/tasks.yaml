@@ -23,7 +23,7 @@ tasks:
     area: app
     size: M
     priority: P1
-    status: in_progress
+    status: done
     blocked_by: []
     issue: null
     pr: null
