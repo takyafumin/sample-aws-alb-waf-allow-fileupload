@@ -23,7 +23,7 @@ COPY package.json package-lock.json* .npmrc* ./
 RUN npm ci --omit=dev --omit=optional || npm install --omit=dev --no-optional
 
 COPY --from=build /app/dist ./dist
+COPY public ./public
 
 EXPOSE 3000
 CMD ["node", "dist/server.js"]
-

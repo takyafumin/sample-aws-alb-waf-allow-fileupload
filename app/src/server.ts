@@ -20,18 +20,22 @@ app.disable('x-powered-by');
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-// Optional: serve static if later added by Task B
-// app.use(express.static('public'));
+// Serve static assets (Task B)
+app.use(express.static('public'));
 
 // Healthcheck
 app.get('/health', (_req: Request, res: Response) => {
   res.status(200).json({ status: 'ok' });
 });
 
-// Root placeholder (HTML will be added in Task B)
+// Root route: static middleware will serve public/index.html if present.
+// Keeping a JSON fallback only when index.html is missing.
 app.get('/', (_req: Request, res: Response) => {
+  // If static file exists, let express.static handle it (no-op here).
+  // This handler serves as a fallback for environments without public/.
   res.status(200).json({
     message: 'ALB+WAF file upload demo app',
+    hints: 'Place public/index.html to enable the HTML form.',
     routes: {
       upload: { method: 'POST', path: '/upload', field: 'file' },
       profile: { method: 'POST', path: '/profile', field: 'file' },
@@ -84,4 +88,3 @@ app.listen(PORT, HOST, () => {
   // eslint-disable-next-line no-console
   console.log(`Server listening on http://${HOST}:${PORT} (limit=${APP_MAX_FILE_SIZE_MB}MB)`);
 });
-
