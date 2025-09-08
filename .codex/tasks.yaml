@@ -1,0 +1,125 @@
+version: 1
+title: "ALB+WAF ファイルアップロード許可: タスク定義"
+overview: |
+  docs/spec.md の「12. 並行タスク分解（Work Breakdown）」を
+  Codex CLI の計画機能で扱いやすい形に落とし込んだタスクリスト。
+  1 Issue = 1 ブランチ = 1 PR の運用を想定。
+labels:
+  - name: "type:task"
+  - name: "type:tracking"
+  - name: "priority:P1"
+  - name: "priority:P2"
+  - name: "priority:P3"
+  - name: "area:app"
+  - name: "area:cdk"
+  - name: "area:waf"
+  - name: "docs"
+  - name: "size:S"
+  - name: "size:M"
+  - name: "size:L"
+tasks:
+  - key: A
+    title: アプリ雛形（Express + TS）
+    area: app
+    size: M
+    priority: P1
+    status: pending
+    blocked_by: []
+    issue: null
+    pr: null
+    goal: ルーティング（/upload, /profile, /, /health）と multer 設定
+    deliverables:
+      - app/src/**
+      - app/Dockerfile
+    acceptance:
+      - ローカルで POST /upload が 200 を返す（JSON）
+  - key: B
+    title: テスト HTML とスクリプト
+    area: app
+    size: S
+    priority: P2
+    status: pending
+    blocked_by: []
+    issue: null
+    pr: null
+    goal: / のフォーム、curl スクリプトで検証可能にする
+    deliverables:
+      - app/public/index.html
+      - scripts/test-allowed.sh
+      - scripts/test-blocked.sh
+    acceptance:
+      - フォーム送信と curl で期待結果を再現
+  - key: C
+    title: CDK: VPC/ECS/ALB 基盤
+    area: cdk
+    size: L
+    priority: P1
+    status: pending
+    blocked_by: []
+    issue: null
+    pr: null
+    goal: VPC/ALB/ECS Fargate サービスの最小構成
+    deliverables:
+      - cdk/lib/network.ts
+      - cdk/lib/alb-ecs.ts
+    acceptance:
+      - デプロイ後 GET /health が 200
+  - key: D
+    title: CDK: WAF Web ACL + ルール + ログ
+    area: waf
+    size: M
+    priority: P1
+    status: pending
+    blocked_by: [C]
+    issue: null
+    pr: null
+    goal: カスタム Block ルールとマネージドルール（scope-down）を実装
+    deliverables:
+      - cdk/lib/waf.ts
+    acceptance:
+      - /upload は 200、/profile は 403
+  - key: E
+    title: パラメータ/設定値の外部化
+    area: cdk
+    size: S
+    priority: P2
+    status: pending
+    blocked_by: [C]
+    issue: null
+    pr: null
+    goal: allowedPaths 等を Context/SSM/環境変数化
+    deliverables:
+      - cdk/bin/app.ts
+      - cdk/lib/**
+    acceptance:
+      - 値変更で挙動が反映
+  - key: F
+    title: ドキュメント整備
+    area: docs
+    size: S
+    priority: P2
+    status: pending
+    blocked_by: []
+    issue: null
+    pr: null
+    goal: README 更新、検証手順、注意点
+    deliverables:
+      - README.md
+      - docs/spec.md
+    acceptance:
+      - 新規参加者が手順通りに検証可能
+  - key: G
+    title: 開発規約セットアップ（TS/JSDoc/Lint/Format）
+    area: app
+    size: M
+    priority: P3
+    status: pending
+    blocked_by: []
+    issue: null
+    pr: null
+    goal: TypeScript 設定、ESLint + Prettier、husky/lint-staged
+    deliverables:
+      - ルート: .eslintrc.cjs, .prettierrc, .editorconfig, tsconfig.base.json
+      - 各パッケージ: tsconfig.json
+    acceptance:
+      - npm run lint / format:check / pre-commit が通る
