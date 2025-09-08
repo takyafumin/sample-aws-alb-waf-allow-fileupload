@@ -41,6 +41,7 @@
 - VPC: 2AZ（ALB はパブリック、ECS タスクはプライベート）
 - ALB: リスナー 80/443（443 は任意の ACM 証明書 ARN で有効化）
 - WAFv2: Web ACL を ALB にアタッチ
+- 実装詳細: `docs/waf-web-acl.md`（ルール、スコープダウン、ログ要件）
 - ECS Fargate: コンテナで Express アプリを提供
 
 ## 5. WAF ポリシー設計
