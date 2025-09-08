@@ -4,4 +4,4 @@
 
 ## 例
 - 2025-09-08: テンプレと Codex タスク定義を追加（A〜G を pending）。次は A に着手。
-
+- 2025-09-08: タスクCを開始。CDK プロジェクトを追加し、VPC（2AZ/NAT1）と ALB+ECS(Fargate, /health ヘルスチェック) を実装。次は WAF（タスクD）。
