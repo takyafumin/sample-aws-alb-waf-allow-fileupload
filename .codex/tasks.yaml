@@ -69,7 +69,7 @@ tasks:
     area: waf
     size: M
     priority: P1
-    status: in_progress
+    status: done
     blocked_by: [C]
     issue: null
     pr: null
